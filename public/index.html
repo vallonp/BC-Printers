@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boston College Printer Status</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with BC Logo -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="bc-logo">
+                        <div class="bc-logo-initials">BC</div>
+                    </div>
+                    <div class="header-text">
+                        <h1>Boston College</h1>
+                        <p class="subtitle">Printer Status Monitor</p>
+                    </div>
+                </div>
+                <div class="last-updated">
+                    <span id="lastUpdated">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🖨️</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="totalPrinters">0</div>
+                        <div class="stat-label">Total Printers</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="onlinePrinters">0</div>
+                        <div class="stat-label">Online</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="offlinePrinters">0</div>
+                        <div class="stat-label">Offline</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔄</div>
+                    <div class="stat-info">
+                        <div class="stat-number" id="needsAttention">0</div>
+                        <div class="stat-label">Needs Attention</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="controls-section">
+            <button id="refreshBtn" class="refresh-btn">
+                <span class="btn-icon">🔄</span>
+                Refresh All Status
+            </button>
+            <div class="auto-refresh">
+                <span class="refresh-text">Auto-refresh every 2 minutes</span>
+            </div>
+        </section>
+
+        <!-- Toner Overview Section -->
+        <section class="toner-overview-section">
+            <h2 class="section-title">Toner Levels Overview</h2>
+            <div class="toner-grid" id="tonerOverview">
+                <!-- Toner cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Maintenance Kit Section -->
+        <section class="maintenance-section">
+            <h2 class="section-title">Maintenance Kits</h2>
+            <div class="maintenance-grid" id="maintenanceOverview">
+                <!-- Maintenance cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Detailed Printer Status -->
+        <section class="detailed-section">
+            <h2 class="section-title">Detailed Printer Status</h2>
+            <div class="printers-grid" id="printersContainer">
+                <!-- Detailed printer cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loading">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Checking printer status...</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Boston College IT Services • Printer Monitoring System</p>
+            <p class="footer-timestamp" id="footerTimestamp"></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
