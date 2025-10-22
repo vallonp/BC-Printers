@@ -1,0 +1,483 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bc-maroon: #8C1515;
+    --bc-gold: #FFD700;
+    --bc-dark: #2C2C2C;
+    --bc-light: #F8F9FA;
+    --bc-gray: #6C757D;
+    --bc-success: #28A745;
+    --bc-warning: #FFC107;
+    --bc-danger: #DC3545;
+    --bc-info: #17A2B8;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    color: var(--bc-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.header {
+    background: linear-gradient(135deg, var(--bc-maroon) 0%, #6b0f1a 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.bc-logo {
+    width: 60px;
+    height: 60px;
+    background: var(--bc-gold);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--bc-maroon);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.header-text h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.last-updated {
+    background: rgba(255,255,255,0.1);
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+}
+
+/* Stats Section */
+.stats-section {
+    margin-bottom: 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bc-light);
+    border-radius: 12px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--bc-gray);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Controls Section */
+.controls-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.refresh-btn {
+    background: var(--bc-maroon);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.refresh-btn:hover {
+    background: #6b0f1a;
+    transform: translateY(-1px);
+}
+
+.refresh-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+.auto-refresh {
+    color: var(--bc-gray);
+    font-size: 0.9rem;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--bc-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Toner Overview Section */
+.toner-overview-section {
+    margin-bottom: 2rem;
+}
+
+.toner-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.toner-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--bc-info);
+}
+
+.toner-card.low {
+    border-left-color: var(--bc-danger);
+}
+
+.toner-card.medium {
+    border-left-color: var(--bc-warning);
+}
+
+.toner-card.high {
+    border-left-color: var(--bc-success);
+}
+
+.toner-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.printer-name {
+    font-weight: 600;
+    color: var(--bc-dark);
+}
+
+.toner-percentage {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.toner-bar {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.toner-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.toner-fill.low { background: var(--bc-danger); }
+.toner-fill.medium { background: var(--bc-warning); }
+.toner-fill.high { background: var(--bc-success); }
+
+.toner-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--bc-gray);
+}
+
+/* Maintenance Section */
+.maintenance-section {
+    margin-bottom: 2rem;
+}
+
+.maintenance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.maintenance-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--bc-info);
+}
+
+.maintenance-card.low {
+    border-left-color: var(--bc-warning);
+}
+
+.maintenance-card.critical {
+    border-left-color: var(--bc-danger);
+}
+
+/* Detailed Printer Section */
+.detailed-section {
+    margin-bottom: 3rem;
+}
+
+.printers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+}
+
+.printer-detail-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.printer-detail-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.printer-detail-card.online {
+    border-top: 4px solid var(--bc-success);
+}
+
+.printer-detail-card.offline {
+    border-top: 4px solid var(--bc-danger);
+}
+
+.printer-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.printer-title {
+    font-weight: 600;
+    color: var(--bc-dark);
+}
+
+.printer-ip {
+    color: var(--bc-gray);
+    font-size: 0.9rem;
+    font-family: monospace;
+}
+
+.printer-card-body {
+    padding: 1.5rem;
+}
+
+.status-section, .toner-section, .tray-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-subtitle {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--bc-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-ready { background: #d4edda; color: #155724; }
+.status-sleep { background: #fff3cd; color: #856404; }
+.status-jam { background: #f8d7da; color: #721c24; }
+.status-maintenance { background: #cce7ff; color: #004085; }
+.status-unknown { background: #e2e3e5; color: #383d41; }
+
+.tray-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.tray-item:last-child {
+    border-bottom: none;
+}
+
+.tray-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.tray-ok { background: #d4edda; color: #155724; }
+.tray-low { background: #fff3cd; color: #856404; }
+.tray-empty { background: #f8d7da; color: #721c24; }
+.tray-open { background: #cce7ff; color: #004085; }
+
+/* Loading */
+.loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--bc-maroon);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--bc-gray);
+    border-top: 1px solid #e9ecef;
+    margin-top: 2rem;
+}
+
+.footer-timestamp {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .logo-section {
+        justify-content: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .controls-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .toner-grid,
+    .maintenance-grid,
+    .printers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .printer-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
