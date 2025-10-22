@@ -36,13 +36,23 @@ class BCPrinterMonitor {
         loading.style.display = 'flex';
         
         try {
-            const response = await fetch('/api/check-printers');
+            console.log('🔄 Fetching printer data...');
+            
+            const response = await fetch('/api/check-printers', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            console.log('Response status:', response.status);
             
             if (!response.ok) {
-                throw new Error(`Server error: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const result = await response.json();
+            console.log('API response:', result);
             
             if (result.success) {
                 this.updateDisplay(result.data);
@@ -54,17 +64,101 @@ class BCPrinterMonitor {
                 document.getElementById('footerTimestamp').textContent = 
                     `Data current as of: ${now.toLocaleString()}`;
                     
+                console.log('✅ Successfully updated display');
             } else {
-                throw new Error(result.error || 'Unknown error');
+                throw new Error(result.error || 'Unknown server error');
             }
             
         } catch (error) {
-            console.error('Error fetching printer data:', error);
-            this.showError('Unable to load printer data. Please try again.');
+            console.error('❌ Error fetching printer data:', error);
+            this.showError('Unable to load printer data. ' + error.message);
+            // Fallback to demo data
+            this.useFallbackData();
         } finally {
             refreshBtn.disabled = false;
             loading.style.display = 'none';
         }
+    }
+
+    useFallbackData() {
+        console.log('Using fallback demo data...');
+        const demoData = this.generateFallbackData();
+        this.updateDisplay(demoData);
+        this.updateStats(demoData);
+        
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = 
+            `Last updated: ${now.toLocaleTimeString()} (Demo Data)`;
+        document.getElementById('footerTimestamp').textContent = 
+            `Data current as of: ${now.toLocaleString()} - Using demo data`;
+    }
+
+    generateFallbackData() {
+        return this.printers.map(printer => {
+            const isColorPrinter = printer.name.toLowerCase().includes('color');
+            const isOnline = Math.random() > 0.2;
+            
+            if (isOnline) {
+                const blackToner = Math.floor(Math.random() * 40) + 30;
+                const maintenanceLevel = Math.floor(Math.random() * 50) + 40;
+                
+                if (isColorPrinter) {
+                    return {
+                        name: printer.name,
+                        ip: printer.ip,
+                        status: 'online',
+                        printerStatus: 'ready',
+                        toners: [
+                            { color: 'Black', level: blackToner },
+                            { color: 'Cyan', level: Math.floor(Math.random() * 50) + 20 },
+                            { color: 'Magenta', level: Math.floor(Math.random() * 60) + 15 },
+                            { color: 'Yellow', level: Math.floor(Math.random() * 55) + 25 }
+                        ],
+                        trays: [
+                            { name: 'Tray 2', status: 'OK' },
+                            { name: 'Tray 3', status: 'OK' }
+                        ],
+                        maintenanceKit: { level: maintenanceLevel },
+                        responseTime: 50,
+                        timestamp: new Date().toISOString(),
+                        method: 'fallback'
+                    };
+                } else {
+                    return {
+                        name: printer.name,
+                        ip: printer.ip,
+                        status: 'online',
+                        printerStatus: 'ready',
+                        toners: [{ color: 'Black', level: blackToner }],
+                        trays: [
+                            { name: 'Tray 2', status: 'OK' },
+                            { name: 'Tray 3', status: 'OK' }
+                        ],
+                        maintenanceKit: { level: maintenanceLevel },
+                        responseTime: 50,
+                        timestamp: new Date().toISOString(),
+                        method: 'fallback'
+                    };
+                }
+            } else {
+                return {
+                    name: printer.name,
+                    ip: printer.ip,
+                    status: 'offline',
+                    printerStatus: 'offline',
+                    toners: [{ color: 'Black', level: 0 }],
+                    trays: [
+                        { name: 'Tray 2', status: 'UNKNOWN' },
+                        { name: 'Tray 3', status: 'UNKNOWN' }
+                    ],
+                    maintenanceKit: { level: 0 },
+                    responseTime: null,
+                    error: 'Printer not responding',
+                    timestamp: new Date().toISOString(),
+                    method: 'fallback'
+                };
+            }
+        });
     }
 
     updateDisplay(printers) {
@@ -151,7 +245,7 @@ class BCPrinterMonitor {
         
         printers.forEach(printer => {
             const isColorPrinter = printer.name.toLowerCase().includes('color');
-            const statusClass = this.getStatusClass(printer.status);
+            const statusClass = this.getStatusClass(printer.printerStatus || printer.status);
             const statusText = this.getStatusText(printer);
             
             container.innerHTML += `
@@ -295,6 +389,7 @@ class BCPrinterMonitor {
     getStatusClass(status) {
         const statusMap = {
             'online': 'ready',
+            'ready': 'ready',
             'offline': 'unknown',
             'sleep': 'sleep',
             'jammed': 'jam',
@@ -305,6 +400,11 @@ class BCPrinterMonitor {
 
     getStatusText(printer) {
         if (printer.status !== 'online') return 'Offline';
+        
+        // Use the printerStatus field if available
+        if (printer.printerStatus && printer.printerStatus !== 'online') {
+            return printer.printerStatus.charAt(0).toUpperCase() + printer.printerStatus.slice(1);
+        }
         
         // Check for specific status conditions
         if (printer.trays) {
@@ -325,7 +425,6 @@ class BCPrinterMonitor {
     }
 
     showError(message) {
-        // Simple error notification
         const errorDiv = document.createElement('div');
         errorDiv.style.cssText = `
             position: fixed;
@@ -337,12 +436,19 @@ class BCPrinterMonitor {
             border-radius: 8px;
             z-index: 1001;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            max-width: 400px;
         `;
-        errorDiv.textContent = message;
+        errorDiv.innerHTML = `
+            <strong>Error</strong>
+            <div style="margin-top: 0.5rem; font-size: 0.9rem;">${message}</div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Using demo data instead.</div>
+        `;
         document.body.appendChild(errorDiv);
         
         setTimeout(() => {
-            document.body.removeChild(errorDiv);
+            if (document.body.contains(errorDiv)) {
+                document.body.removeChild(errorDiv);
+            }
         }, 5000);
     }
 }
